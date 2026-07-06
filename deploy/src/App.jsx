@@ -316,7 +316,7 @@ function decodeTypeCode(code) {
 
 function buildCompatShareText(myResult, partnerCode, compat, mode) {
   const modeLabel = mode === "friend" ? "友情" : "恋愛";
-  return `【統合診断・${modeLabel}相性】相性スコア ${compat.total}点「${compat.band.label}」でした。\n${compat.band.tone}\n#統合診断 #相性診断`;
+  return `【統合診断・${modeLabel}相性】相性スコア ${compat.total}点「${compat.band.label}」でした。\n${compat.band.tone}\nきみたちも相性チェックしてみて→ ${getSiteUrl()}\n#統合診断 #相性診断`;
 }
 
 // ---------- 「もう一人のあなた」チャット ----------
@@ -384,11 +384,16 @@ function buildReadingPrompt(entry) {
 
 
 
+function getSiteUrl() {
+  if (typeof window === "undefined") return "";
+  return `${window.location.origin}${window.location.pathname}`;
+}
+
 function buildShareText(result) {
   const typeLabel = result.skeleton
     ? `${result.personality.name} × ${result.love.name} × ${result.skeleton.name}`
     : `${result.personality.name} × ${result.love.name}`;
-  return `【統合診断】私は「${typeLabel}」タイプでした。\n「${result.personality.copy}」\n#統合診断 #性格診断 #恋愛タイプ診断`;
+  return `【統合診断】私は「${typeLabel}」タイプでした。\n「${result.personality.copy}」\nきみも診断してみて→ ${getSiteUrl()}\n#統合診断 #性格診断 #恋愛タイプ診断`;
 }
 
 function wrapText(ctx, text, maxWidth) {
@@ -509,6 +514,7 @@ export default function DiagnosisApp() {
   const [skeletonAnswers, setSkeletonAnswers] = useState({});
   const [isPremium, setIsPremium] = useState(false);
   const [premiumLoaded, setPremiumLoaded] = useState(false);
+  const [premiumReturn, setPremiumReturn] = useState(null);
   const [readingText, setReadingText] = useState("");
   const [readingLoading, setReadingLoading] = useState(false);
   const [readingError, setReadingError] = useState("");
@@ -588,13 +594,20 @@ export default function DiagnosisApp() {
   const startSkeletonQuiz = () => {
     setSkeletonAnswers({});
     setSkeletonStep(1);
+    setStep(0);
     setView("skeleton");
   };
 
   const mockPurchase = () => {
     setIsPremium(true);
     storage.set("premium_status", JSON.stringify({ isPremium: true, purchasedAt: new Date().toISOString() })).catch(() => {});
-    setView("main");
+    if (premiumReturn) {
+      setStep(premiumReturn.step);
+      setView(premiumReturn.view);
+      setPremiumReturn(null);
+    } else {
+      setView("main");
+    }
   };
 
   const generateReading = async () => {
@@ -763,7 +776,7 @@ export default function DiagnosisApp() {
 
   const buildJourneyText = () => {
     const chain = history.map((e) => `${e.personality}×${e.love}`).join(" → ");
-    return `【統合診断・タイプ遍歴】\n診断回数:${history.length}回 / タイプが変わった回数:${changeCount}回\n${chain}\n#統合診断 #タイプ遍歴`;
+    return `【統合診断・タイプ遍歴】\n診断回数:${history.length}回 / タイプが変わった回数:${changeCount}回\n${chain}\n気分で変わる診断、きみもやってみて→ ${getSiteUrl()}\n#統合診断 #タイプ遍歴`;
   };
 
   return (
@@ -895,7 +908,7 @@ export default function DiagnosisApp() {
 
             {premiumLoaded && (
               <button
-                onClick={() => setView("premium")}
+                onClick={() => { setPremiumReturn(null); setView("premium"); }}
                 style={{ width: "100%", padding: "10px 0", background: "transparent", color: isPremium ? "#FF5D8F" : "#B49EBB", border: "none", fontSize: 12, cursor: "pointer" }}
               >
                 {isPremium ? "✨ プレミアム会員です" : "プレミアムについて見る"}
@@ -1007,7 +1020,7 @@ export default function DiagnosisApp() {
             )}
 
             <button
-              onClick={() => setView("main")}
+              onClick={() => { setPremiumReturn(null); setView("main"); }}
               style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
             >
               トップに戻る
@@ -1247,7 +1260,7 @@ export default function DiagnosisApp() {
                     <p style={{ fontSize: 13, lineHeight: 1.8, marginBottom: 4 }}>無料で話せるのはここまで(3往復)です。</p>
                     <p style={{ fontSize: 12, opacity: 0.6, marginBottom: 12 }}>プレミアムなら、分身との会話が無制限になります。</p>
                     <button
-                      onClick={() => setView("premium")}
+                      onClick={() => { setPremiumReturn({ view: "chat", step: 0 }); setView("premium"); }}
                       style={{ width: "100%", padding: "12px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
                     >
                       プレミアムを見てみる
@@ -1422,7 +1435,7 @@ export default function DiagnosisApp() {
                     {displayResult.personality.desc}この続きには、あなたの強み・要注意ポイント・恋愛傾向・仕事の才能・今月のあなたへの一言まで、AIがこの結果だけのために書き下ろします……
                   </p>
                   <button
-                    onClick={() => setView("premium")}
+                    onClick={() => { setPremiumReturn({ view: "main", step: total + 1 }); setStep(0); setView("premium"); }}
                     style={{ width: "100%", padding: "12px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
                   >
                     続きをプレミアムで読む
