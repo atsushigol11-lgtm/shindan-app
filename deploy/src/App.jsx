@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { storage } from "./lib/storage";
 import { Home, History, Heart, MessageCircle, Send } from "lucide-react";
 
-const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');`;
+const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');`;
 
 // ---------- 質問データ ----------
 const PERSONALITY_QUESTIONS = [
@@ -111,7 +111,7 @@ const SKELETON_TYPES = {
 
 // ---------- タイプ定義 ----------
 const PERSONALITY_TYPES = {
-  "外向性協調性": { name: "ムードメーカー", color: "#E8B54D", copy: "その場の主役、いつも私。", desc: "場の空気を読んで盛り上げるのが得意な、天性のエンターテイナー。誰とでもすぐ打ち解けられる人懐っこさで、グループの潤滑油になる。" },
+  "外向性協調性": { name: "ムードメーカー", color: "#F0A93B", copy: "その場の主役、いつも私。", desc: "場の空気を読んで盛り上げるのが得意な、天性のエンターテイナー。誰とでもすぐ打ち解けられる人懐っこさで、グループの潤滑油になる。" },
   "外向性誠実性": { name: "リーダー", color: "#D9534F", copy: "決めるのは、いつも私から。", desc: "目標に向かってチームを引っ張る統率力の持ち主。有言実行で周囲の信頼を集める、頼れる存在。" },
   "外向性情緒安定性": { name: "太陽", color: "#F2C94C", copy: "そこにいるだけで、あったかい。", desc: "何があっても動じない安定感と、周囲を照らす明るさを併せ持つ。安心感を与える存在。" },
   "外向性開放性": { name: "冒険家", color: "#F2994A", copy: "世界は全部、遊び場。", desc: "好奇心が行動のエンジン。新しい人・場所・体験に触れるたび元気になる、刺激を選び取る力の持ち主。" },
@@ -417,8 +417,8 @@ function drawResultCard(result) {
 
   // 背景
   const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, "#1B1B2F");
-  grad.addColorStop(1, "#14142a");
+  grad.addColorStop(0, "#FFF9EF");
+  grad.addColorStop(1, "#FFE3EF");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
@@ -429,13 +429,13 @@ function drawResultCard(result) {
   ctx.fill();
 
   // ラベル
-  ctx.fillStyle = "#E8B54D";
+  ctx.fillStyle = "#FF5D8F";
   ctx.font = "28px sans-serif";
   ctx.fillText("統合診断 RESULT", 60, 100);
 
   // タイプ名
   ctx.fillStyle = result.personality.color;
-  ctx.font = "bold 52px serif";
+  ctx.font = "bold 52px sans-serif";
   const typeTitle = result.skeleton
     ? `${result.personality.name}×${result.love.name}×${result.skeleton.name}`
     : `${result.personality.name}×${result.love.name}`;
@@ -448,15 +448,15 @@ function drawResultCard(result) {
 
   // キャッチコピー
   y += 20;
-  ctx.fillStyle = "#F4F1EA";
-  ctx.font = "italic 30px serif";
+  ctx.fillStyle = "#4A3D52";
+  ctx.font = "500 30px sans-serif";
   ctx.fillText(`「${result.personality.copy}」`, 60, y);
   y += 70;
 
   // 各軸の説明
   const sections = [
     { label: `性格：${result.personality.name}`, color: result.personality.color, text: result.personality.desc },
-    { label: `恋愛：${result.love.name}`, color: "#E8B54D", text: result.love.desc },
+    { label: `恋愛：${result.love.name}`, color: "#FF5D8F", text: result.love.desc },
   ];
   if (result.skeleton) {
     sections.push({ label: `骨格：${result.skeleton.name}`, color: result.skeleton.color, text: result.skeleton.desc });
@@ -466,7 +466,7 @@ function drawResultCard(result) {
     ctx.font = "bold 26px sans-serif";
     ctx.fillText(sec.label, 60, y);
     y += 38;
-    ctx.fillStyle = "#F4F1EAcc";
+    ctx.fillStyle = "#4A3D52cc";
     ctx.font = "22px sans-serif";
     const lines = wrapText(ctx, sec.text, W - 120);
     lines.forEach((line) => {
@@ -477,7 +477,7 @@ function drawResultCard(result) {
   });
 
   // フッター
-  ctx.fillStyle = "#F4F1EA88";
+  ctx.fillStyle = "#4A3D5288";
   ctx.font = "20px sans-serif";
   ctx.fillText("#統合診断", 60, H - 50);
 
@@ -767,10 +767,10 @@ export default function DiagnosisApp() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#1B1B2F", color: "#F4F1EA", fontFamily: "'Zen Kaku Gothic New', sans-serif", padding: "24px 16px", display: "flex", justifyContent: "center" }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(180deg, #FFF9EF 0%, #FFEBF3 100%)", color: "#4A3D52", fontFamily: "'Zen Maru Gothic', sans-serif", padding: "24px 16px", display: "flex", justifyContent: "center" }}>
       <style>{`
         ${FONT_IMPORT}
-        .serif { font-family: 'Shippori Mincho', serif; }
+        .serif { font-family: 'M PLUS Rounded 1c', sans-serif; }
         .fade-in { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         .likert-btn { transition: all 0.15s ease; }
@@ -781,11 +781,11 @@ export default function DiagnosisApp() {
         {/* ヘッダー: 月の満ち欠け風プログレス */}
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 32 }}>
           <svg width="44" height="44" viewBox="0 0 44 44">
-            <circle cx="22" cy="22" r="18" fill="none" stroke="#33334d" strokeWidth="4" />
+            <circle cx="22" cy="22" r="18" fill="none" stroke="#F6E4ED" strokeWidth="4" />
             <circle
               className="dial"
               cx="22" cy="22" r="18" fill="none"
-              stroke="#E8B54D" strokeWidth="4" strokeLinecap="round"
+              stroke="#FF5D8F" strokeWidth="4" strokeLinecap="round"
               strokeDasharray={2 * Math.PI * 18}
               strokeDashoffset={2 * Math.PI * 18 * (1 - progress)}
               transform="rotate(-90 22 22)"
@@ -795,7 +795,7 @@ export default function DiagnosisApp() {
             <div className="serif" style={{ fontSize: 15, letterSpacing: 1 }}>統合診断</div>
             <div style={{ fontSize: 12, opacity: 0.6 }}>
               {step > total
-                ? "鑑定結果"
+                ? "診断結果"
                 : step > 0
                 ? `${step} / ${total} 問`
                 : view === "mypage"
@@ -841,9 +841,9 @@ export default function DiagnosisApp() {
                     alignItems: "center",
                     gap: 4,
                     padding: "10px 0",
-                    background: active ? "#262640" : "transparent",
-                    color: disabled ? "#5a5a75" : active ? "#E8B54D" : "#F4F1EA",
-                    border: `1px solid ${active ? "#E8B54D55" : "#3a3a5a"}`,
+                    background: active ? "#FFFFFF" : "transparent",
+                    color: disabled ? "#CDBFD3" : active ? "#FF5D8F" : "#4A3D52",
+                    border: `1px solid ${active ? "#FF5D8F55" : "#F2DDE7"}`,
                     borderRadius: 10,
                     fontSize: 11,
                     cursor: disabled ? "not-allowed" : "pointer",
@@ -860,17 +860,17 @@ export default function DiagnosisApp() {
 
         {step === 0 && view === "main" && (
           <div className="fade-in">
-            <h1 className="serif" style={{ fontSize: 26, lineHeight: 1.5, marginBottom: 16 }}>
-              あなたの内面には、<br />どんな星座が宿っている？
+            <h1 className="serif" style={{ fontSize: 26, lineHeight: 1.5, marginBottom: 16, fontWeight: 800 }}>
+              きみって、何タイプ？<br />ほんとの自分、見にいこう🔍
             </h1>
             <p style={{ fontSize: 14, lineHeight: 1.9, opacity: 0.8, marginBottom: 20 }}>
-              性格タイプ(全10種)と恋愛タイプ(全4種)を掛け合わせ、あなただけの統合タイプを診断します。全{total}問、直感で答えてください。
+              全{total}問、直感でサクサク答えるだけ。性格タイプ(全10種)×恋愛タイプ(全4種)の掛け合わせで、きみだけの統合タイプが見つかります。
             </p>
 
             {historyLoaded && previousEntry && (
-              <div style={{ background: "#262640", border: "1px solid #3a3a5a", borderRadius: 10, padding: 14, marginBottom: 20 }}>
+              <div style={{ background: "#FFFFFF", border: "1px solid #F2DDE7", borderRadius: 10, padding: 14, marginBottom: 20 }}>
                 <div style={{ fontSize: 12, opacity: 0.7, lineHeight: 1.7 }}>
-                  前回の診断は<strong style={{ color: "#E8B54D" }}>{daysSince(previousEntry.date)}日前</strong>。
+                  前回の診断は<strong style={{ color: "#FF5D8F" }}>{daysSince(previousEntry.date)}日前</strong>。
                   その時は「{previousEntry.personality}×{previousEntry.love}」でした。
                   {daysSince(previousEntry.date) >= 14 ? " 今のあなたは、変わっているかもしれません。" : " 気分は変わりましたか？"}
                 </div>
@@ -879,7 +879,7 @@ export default function DiagnosisApp() {
 
             <button
               onClick={() => setStep(1)}
-              style={{ width: "100%", padding: "16px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: "pointer", marginBottom: 12 }}
+              style={{ width: "100%", padding: "16px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: "pointer", marginBottom: 12 }}
             >
               {previousEntry ? "もう一度、今の気分で診断する" : "診断をはじめる"}
             </button>
@@ -887,7 +887,7 @@ export default function DiagnosisApp() {
             {skeletonLoaded && (
               <button
                 onClick={startSkeletonQuiz}
-                style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#F4F1EA", border: "1px dashed #3a3a5a", borderRadius: 10, fontSize: 13, cursor: "pointer", marginBottom: 12 }}
+                style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#4A3D52", border: "1px dashed #F2DDE7", borderRadius: 10, fontSize: 13, cursor: "pointer", marginBottom: 12 }}
               >
                 {skeletonProfile ? `見た目診断:${skeletonProfile.skeletonName}(やり直す)` : "＋ 見た目診断(骨格・オプション・8問)"}
               </button>
@@ -896,7 +896,7 @@ export default function DiagnosisApp() {
             {premiumLoaded && (
               <button
                 onClick={() => setView("premium")}
-                style={{ width: "100%", padding: "10px 0", background: "transparent", color: isPremium ? "#E8B54D" : "#8a8aa0", border: "none", fontSize: 12, cursor: "pointer" }}
+                style={{ width: "100%", padding: "10px 0", background: "transparent", color: isPremium ? "#FF5D8F" : "#B49EBB", border: "none", fontSize: 12, cursor: "pointer" }}
               >
                 {isPremium ? "✨ プレミアム会員です" : "プレミアムについて見る"}
               </button>
@@ -922,9 +922,9 @@ export default function DiagnosisApp() {
                       onClick={() => handleSkeletonAnswer(opt.type)}
                       style={{
                         padding: "14px 16px",
-                        background: skeletonAnswers[`s${skeletonStep - 1}`] === opt.type ? "#E8B54D" : "#262640",
-                        color: skeletonAnswers[`s${skeletonStep - 1}`] === opt.type ? "#1B1B2F" : "#F4F1EA",
-                        border: "1px solid #3a3a5a",
+                        background: skeletonAnswers[`s${skeletonStep - 1}`] === opt.type ? "#FF5D8F" : "#FFFFFF",
+                        color: skeletonAnswers[`s${skeletonStep - 1}`] === opt.type ? "#FFFFFF" : "#4A3D52",
+                        border: "1px solid #F2DDE7",
                         borderRadius: 8,
                         fontSize: 14,
                         textAlign: "left",
@@ -947,7 +947,7 @@ export default function DiagnosisApp() {
                 </p>
                 <button
                   onClick={() => { setView("main"); setSkeletonStep(0); }}
-                  style={{ width: "100%", padding: "14px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                  style={{ width: "100%", padding: "14px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
                 >
                   トップに戻る
                 </button>
@@ -964,33 +964,33 @@ export default function DiagnosisApp() {
             </p>
 
             {isPremium ? (
-              <div style={{ background: "#262640", border: "1px solid #E8B54D55", borderRadius: 12, padding: 20, textAlign: "center", marginBottom: 16 }}>
+              <div style={{ background: "#FFFFFF", border: "1px solid #FF5D8F55", borderRadius: 12, padding: 20, textAlign: "center", marginBottom: 16 }}>
                 <p style={{ fontSize: 14, marginBottom: 4 }}>すでにプレミアム会員です ✨</p>
                 <p style={{ fontSize: 12, opacity: 0.6 }}>分身との会話は無制限、詳細鑑定文もいつでも読めます。</p>
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
-                <div style={{ background: "#262640", border: "1px solid #3a3a5a", borderRadius: 12, padding: 18 }}>
+                <div style={{ background: "#FFFFFF", border: "1px solid #F2DDE7", borderRadius: 12, padding: 18 }}>
                   <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 6 }}>単発プラン</div>
-                  <div className="serif" style={{ fontSize: 24, color: "#E8B54D", marginBottom: 8 }}>¥480</div>
+                  <div className="serif" style={{ fontSize: 24, color: "#FF5D8F", marginBottom: 8 }}>¥480</div>
                   <ul style={{ fontSize: 12, opacity: 0.8, lineHeight: 2, paddingLeft: 18, marginBottom: 14 }}>
                     <li>詳細鑑定文(AI生成・6セクション)を1回解放</li>
                     <li>分身チャットを今日だけ無制限に</li>
                   </ul>
                   <button
                     onClick={mockPurchase}
-                    style={{ width: "100%", padding: "12px 0", background: "#1B1B2F", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 8, fontSize: 13, cursor: "pointer" }}
+                    style={{ width: "100%", padding: "12px 0", background: "#FFFFFF", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 8, fontSize: 13, cursor: "pointer" }}
                   >
                     このプランで体験する(デモ)
                   </button>
                 </div>
 
-                <div style={{ background: "#262640", border: "1px solid #E8B54D", borderRadius: 12, padding: 18, position: "relative" }}>
-                  <div style={{ position: "absolute", top: -10, right: 16, background: "#E8B54D", color: "#1B1B2F", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 6 }}>
+                <div style={{ background: "#FFFFFF", border: "1px solid #FF5D8F", borderRadius: 12, padding: 18, position: "relative" }}>
+                  <div style={{ position: "absolute", top: -10, right: 16, background: "#FF5D8F", color: "#FFFFFF", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 6 }}>
                     おすすめ
                   </div>
                   <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 6 }}>月額プラン</div>
-                  <div className="serif" style={{ fontSize: 24, color: "#E8B54D", marginBottom: 8 }}>¥480<span style={{ fontSize: 13 }}> / 月</span></div>
+                  <div className="serif" style={{ fontSize: 24, color: "#FF5D8F", marginBottom: 8 }}>¥480<span style={{ fontSize: 13 }}> / 月</span></div>
                   <ul style={{ fontSize: 12, opacity: 0.8, lineHeight: 2, paddingLeft: 18, marginBottom: 14 }}>
                     <li>詳細鑑定文がいつでも読み放題</li>
                     <li>分身チャットが常に無制限</li>
@@ -998,7 +998,7 @@ export default function DiagnosisApp() {
                   </ul>
                   <button
                     onClick={mockPurchase}
-                    style={{ width: "100%", padding: "12px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                    style={{ width: "100%", padding: "12px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
                   >
                     このプランで体験する(デモ)
                   </button>
@@ -1008,7 +1008,7 @@ export default function DiagnosisApp() {
 
             <button
               onClick={() => setView("main")}
-              style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
+              style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
             >
               トップに戻る
             </button>
@@ -1020,25 +1020,25 @@ export default function DiagnosisApp() {
             <h1 className="serif" style={{ fontSize: 22, marginBottom: 16 }}>あなたのタイプ遍歴</h1>
 
             <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-              <div style={{ flex: 1, background: "#262640", borderRadius: 10, padding: 14, textAlign: "center" }}>
-                <div style={{ fontSize: 22, fontWeight: 700, color: "#E8B54D" }}>{history.length}</div>
+              <div style={{ flex: 1, background: "#FFFFFF", borderRadius: 10, padding: 14, textAlign: "center" }}>
+                <div style={{ fontSize: 22, fontWeight: 700, color: "#FF5D8F" }}>{history.length}</div>
                 <div style={{ fontSize: 11, opacity: 0.6 }}>診断回数</div>
               </div>
-              <div style={{ flex: 1, background: "#262640", borderRadius: 10, padding: 14, textAlign: "center" }}>
-                <div style={{ fontSize: 22, fontWeight: 700, color: "#E8B54D" }}>{changeCount}</div>
+              <div style={{ flex: 1, background: "#FFFFFF", borderRadius: 10, padding: 14, textAlign: "center" }}>
+                <div style={{ fontSize: 22, fontWeight: 700, color: "#FF5D8F" }}>{changeCount}</div>
                 <div style={{ fontSize: 11, opacity: 0.6 }}>タイプが変化</div>
               </div>
             </div>
 
             {mostFrequent && (
               <p style={{ fontSize: 13, opacity: 0.8, marginBottom: 20, lineHeight: 1.8 }}>
-                一番よく出るタイプは<strong style={{ color: "#E8B54D" }}>「{mostFrequent[0]}」</strong>({mostFrequent[1]}回)でした。
+                一番よく出るタイプは<strong style={{ color: "#FF5D8F" }}>「{mostFrequent[0]}」</strong>({mostFrequent[1]}回)でした。
               </p>
             )}
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
               {[...history].reverse().map((e, i) => (
-                <div key={i} style={{ background: "#20203a", borderRadius: 10, padding: 12 }}>
+                <div key={i} style={{ background: "#FFF3F8", borderRadius: 10, padding: 12 }}>
                   <div style={{ fontSize: 11, opacity: 0.5, marginBottom: 4 }}>
                     {new Date(e.date).toLocaleDateString("ja-JP")}
                   </div>
@@ -1056,13 +1056,13 @@ export default function DiagnosisApp() {
                   setJourneyCopied(true);
                   setTimeout(() => setJourneyCopied(false), 2000);
                 }}
-                style={{ width: "100%", padding: "14px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                style={{ width: "100%", padding: "14px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
               >
                 {journeyCopied ? "コピーしました！" : "タイプ遍歴をシェア文としてコピー"}
               </button>
               <button
                 onClick={() => setView("main")}
-                style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
+                style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
               >
                 トップに戻る
               </button>
@@ -1078,7 +1078,7 @@ export default function DiagnosisApp() {
             </p>
 
             {sharedCodeNotice && (
-              <div style={{ background: "#262640", border: "1px solid #E8B54D55", borderRadius: 10, padding: 14, marginBottom: 16, fontSize: 12, lineHeight: 1.8, color: "#E8B54D" }}>
+              <div style={{ background: "#FFFFFF", border: "1px solid #FF5D8F55", borderRadius: 10, padding: 14, marginBottom: 16, fontSize: 12, lineHeight: 1.8, color: "#FF5D8F" }}>
                 {sharedCodeNotice}
               </div>
             )}
@@ -1086,23 +1086,23 @@ export default function DiagnosisApp() {
             <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
               <button
                 onClick={() => { setCompatMode("romantic"); setCompatResult(null); }}
-                style={{ flex: 1, padding: "12px 0", background: compatMode === "romantic" ? "#E8B54D" : "#262640", color: compatMode === "romantic" ? "#1B1B2F" : "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                style={{ flex: 1, padding: "12px 0", background: compatMode === "romantic" ? "#FF5D8F" : "#FFFFFF", color: compatMode === "romantic" ? "#FFFFFF" : "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
               >
                 恋愛相性
               </button>
               <button
                 onClick={() => { setCompatMode("friend"); setCompatResult(null); }}
-                style={{ flex: 1, padding: "12px 0", background: compatMode === "friend" ? "#E8B54D" : "#262640", color: compatMode === "friend" ? "#1B1B2F" : "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                style={{ flex: 1, padding: "12px 0", background: compatMode === "friend" ? "#FF5D8F" : "#FFFFFF", color: compatMode === "friend" ? "#FFFFFF" : "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
               >
                 友人相性
               </button>
             </div>
 
-            <div style={{ background: "#262640", borderRadius: 10, padding: 16, marginBottom: 16 }}>
+            <div style={{ background: "#FFFFFF", borderRadius: 10, padding: 16, marginBottom: 16 }}>
               <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 8 }}>自分のコード</div>
               {myCode ? (
                 <>
-                  <div className="serif" style={{ fontSize: 22, color: "#E8B54D", marginBottom: 10, letterSpacing: 1 }}>{myCode}</div>
+                  <div className="serif" style={{ fontSize: 22, color: "#FF5D8F", marginBottom: 10, letterSpacing: 1 }}>{myCode}</div>
                   <button
                     onClick={() => {
                       const shareUrl = typeof window !== "undefined"
@@ -1112,7 +1112,7 @@ export default function DiagnosisApp() {
                       setMyCodeCopied(true);
                       setTimeout(() => setMyCodeCopied(false), 2000);
                     }}
-                    style={{ width: "100%", padding: "12px 0", background: "#1B1B2F", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 8, fontSize: 13, cursor: "pointer" }}
+                    style={{ width: "100%", padding: "12px 0", background: "#FFFFFF", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 8, fontSize: 13, cursor: "pointer" }}
                   >
                     {myCodeCopied ? "コピーしました！" : "コードを送る文面をコピー"}
                   </button>
@@ -1122,17 +1122,17 @@ export default function DiagnosisApp() {
               )}
             </div>
 
-            <div style={{ background: "#262640", borderRadius: 10, padding: 16, marginBottom: 16 }}>
+            <div style={{ background: "#FFFFFF", borderRadius: 10, padding: 16, marginBottom: 16 }}>
               <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 8 }}>相手のコードを入力</div>
               <input
                 value={partnerCodeInput}
                 onChange={(e) => setPartnerCodeInput(e.target.value)}
                 placeholder="例:P3L1S2"
-                style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", background: "#1B1B2F", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 8, fontSize: 14, marginBottom: 10 }}
+                style={{ width: "100%", boxSizing: "border-box", padding: "12px 14px", background: "#FFFFFF", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 8, fontSize: 14, marginBottom: 10 }}
               />
               <button
                 onClick={runCompatCheck}
-                style={{ width: "100%", padding: "14px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                style={{ width: "100%", padding: "14px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
               >
                 相性を診断する
               </button>
@@ -1142,11 +1142,11 @@ export default function DiagnosisApp() {
             </div>
 
             {compatResult && (
-              <div className="fade-in" style={{ background: "#20203a", borderRadius: 12, padding: 20, marginBottom: 16 }}>
+              <div className="fade-in" style={{ background: "#FFF3F8", borderRadius: 12, padding: 20, marginBottom: 16 }}>
                 <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 6 }}>
                   {compatMode === "friend" ? "友人相性" : "恋愛相性"}スコア
                 </div>
-                <div className="serif" style={{ fontSize: 40, color: "#E8B54D", marginBottom: 4 }}>
+                <div className="serif" style={{ fontSize: 40, color: "#FF5D8F", marginBottom: 4 }}>
                   {compatResult.compat.total}<span style={{ fontSize: 16 }}> / 100</span>
                 </div>
                 <div className="serif" style={{ fontSize: 18, marginBottom: 10 }}>{compatResult.compat.band.label}</div>
@@ -1157,8 +1157,8 @@ export default function DiagnosisApp() {
                     <span>{compatMode === "friend" ? "対人スタイルの相性" : "愛着スタイルの相性"}</span>
                     <span style={{ opacity: 0.6 }}>{compatResult.compat.loveScore}</span>
                   </div>
-                  <div style={{ height: 6, background: "#33334d", borderRadius: 3, overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${compatResult.compat.loveScore}%`, background: "#E8B54D", borderRadius: 3 }} />
+                  <div style={{ height: 6, background: "#F6E4ED", borderRadius: 3, overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${compatResult.compat.loveScore}%`, background: "#FF5D8F", borderRadius: 3 }} />
                   </div>
                 </div>
                 <div style={{ marginBottom: 14 }}>
@@ -1166,7 +1166,7 @@ export default function DiagnosisApp() {
                     <span>価値観の近さ</span>
                     <span style={{ opacity: 0.6 }}>{compatResult.compat.personalityScore}</span>
                   </div>
-                  <div style={{ height: 6, background: "#33334d", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: 6, background: "#F6E4ED", borderRadius: 3, overflow: "hidden" }}>
                     <div style={{ height: "100%", width: `${compatResult.compat.personalityScore}%`, background: "#6FCF97", borderRadius: 3 }} />
                   </div>
                 </div>
@@ -1179,7 +1179,7 @@ export default function DiagnosisApp() {
                     setCompatShareCopied(true);
                     setTimeout(() => setCompatShareCopied(false), 2000);
                   }}
-                  style={{ width: "100%", padding: "12px 0", background: "#1B1B2F", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 8, fontSize: 13, cursor: "pointer" }}
+                  style={{ width: "100%", padding: "12px 0", background: "#FFFFFF", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 8, fontSize: 13, cursor: "pointer" }}
                 >
                   {compatShareCopied ? "コピーしました！" : "相性結果をシェア文としてコピー"}
                 </button>
@@ -1188,7 +1188,7 @@ export default function DiagnosisApp() {
 
             <button
               onClick={() => { setView("main"); setCompatResult(null); setPartnerCodeInput(""); setCompatError(""); }}
-              style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
+              style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
             >
               トップに戻る
             </button>
@@ -1199,9 +1199,9 @@ export default function DiagnosisApp() {
           <div className="fade-in">
             {latestEntry ? (
               <>
-                <div style={{ background: "#262640", borderRadius: 12, padding: 16, marginBottom: 16 }}>
+                <div style={{ background: "#FFFFFF", borderRadius: 12, padding: 16, marginBottom: 16 }}>
                   <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 6 }}>もう一人のあなた</div>
-                  <div className="serif" style={{ fontSize: 17, color: "#E8B54D", marginBottom: 4 }}>
+                  <div className="serif" style={{ fontSize: 17, color: "#FF5D8F", marginBottom: 4 }}>
                     {latestEntry.personality} × {latestEntry.love} × {latestEntry.skeleton}
                   </div>
                   <p style={{ fontSize: 12, opacity: 0.65, lineHeight: 1.7 }}>
@@ -1209,7 +1209,7 @@ export default function DiagnosisApp() {
                   </p>
                 </div>
 
-                <div style={{ background: "#20203a", borderRadius: 12, padding: 14, marginBottom: 12, minHeight: 220, maxHeight: 380, overflowY: "auto", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ background: "#FFF3F8", borderRadius: 12, padding: 14, marginBottom: 12, minHeight: 220, maxHeight: 380, overflowY: "auto", display: "flex", flexDirection: "column", gap: 10 }}>
                   {chatMessages.length === 0 && (
                     <div style={{ fontSize: 13, opacity: 0.5, lineHeight: 1.8, margin: "auto", textAlign: "center" }}>
                       「最近ちょっと疲れてて…」<br />「うちらのタイプって何が向いてるの？」<br />など、なんでも話しかけてみてください
@@ -1225,8 +1225,8 @@ export default function DiagnosisApp() {
                         borderRadius: 12,
                         fontSize: 13,
                         lineHeight: 1.7,
-                        background: m.role === "user" ? "#E8B54D" : "#262640",
-                        color: m.role === "user" ? "#1B1B2F" : "#F4F1EA",
+                        background: m.role === "user" ? "#FF5D8F" : "#FFFFFF",
+                        color: m.role === "user" ? "#FFFFFF" : "#4A3D52",
                         whiteSpace: "pre-wrap",
                       }}
                     >
@@ -1234,7 +1234,7 @@ export default function DiagnosisApp() {
                     </div>
                   ))}
                   {chatLoading && (
-                    <div style={{ alignSelf: "flex-start", padding: "10px 14px", borderRadius: 12, fontSize: 13, background: "#262640", opacity: 0.6 }}>
+                    <div style={{ alignSelf: "flex-start", padding: "10px 14px", borderRadius: 12, fontSize: 13, background: "#FFFFFF", opacity: 0.6 }}>
                       考え中…
                     </div>
                   )}
@@ -1243,12 +1243,12 @@ export default function DiagnosisApp() {
                 {chatError && <div style={{ fontSize: 12, color: "#F09595", marginBottom: 8 }}>{chatError}</div>}
 
                 {chatLimitReached ? (
-                  <div style={{ background: "#262640", border: "1px solid #E8B54D55", borderRadius: 12, padding: 16, textAlign: "center" }}>
+                  <div style={{ background: "#FFFFFF", border: "1px solid #FF5D8F55", borderRadius: 12, padding: 16, textAlign: "center" }}>
                     <p style={{ fontSize: 13, lineHeight: 1.8, marginBottom: 4 }}>無料で話せるのはここまで(3往復)です。</p>
                     <p style={{ fontSize: 12, opacity: 0.6, marginBottom: 12 }}>プレミアムなら、分身との会話が無制限になります。</p>
                     <button
                       onClick={() => setView("premium")}
-                      style={{ width: "100%", padding: "12px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                      style={{ width: "100%", padding: "12px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
                     >
                       プレミアムを見てみる
                     </button>
@@ -1260,12 +1260,12 @@ export default function DiagnosisApp() {
                       onChange={(e) => setChatInput(e.target.value)}
                       onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) sendChat(); }}
                       placeholder={`メッセージを入力(あと${FREE_CHAT_LIMIT - userTurnCount}回)`}
-                      style={{ flex: 1, boxSizing: "border-box", padding: "12px 14px", background: "#1B1B2F", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 14 }}
+                      style={{ flex: 1, boxSizing: "border-box", padding: "12px 14px", background: "#FFFFFF", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14 }}
                     />
                     <button
                       onClick={sendChat}
                       disabled={chatLoading || !chatInput.trim()}
-                      style={{ padding: "0 16px", background: chatLoading || !chatInput.trim() ? "#3a3a5a" : "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 10, cursor: chatLoading || !chatInput.trim() ? "not-allowed" : "pointer", display: "flex", alignItems: "center" }}
+                      style={{ padding: "0 16px", background: chatLoading || !chatInput.trim() ? "#F2DDE7" : "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 10, cursor: chatLoading || !chatInput.trim() ? "not-allowed" : "pointer", display: "flex", alignItems: "center" }}
                     >
                       <Send size={16} />
                     </button>
@@ -1273,7 +1273,7 @@ export default function DiagnosisApp() {
                 )}
               </>
             ) : (
-              <div style={{ background: "#262640", borderRadius: 12, padding: 20, textAlign: "center" }}>
+              <div style={{ background: "#FFFFFF", borderRadius: 12, padding: 20, textAlign: "center" }}>
                 <p style={{ fontSize: 13, opacity: 0.7, lineHeight: 1.8 }}>
                   分身キャラは診断結果から生まれます。<br />まず診断を1回完了してください。
                 </p>
@@ -1299,9 +1299,9 @@ export default function DiagnosisApp() {
                     onClick={() => handleAnswer(opt.v)}
                     style={{
                       padding: "14px 16px",
-                      background: answers[ALL_QUESTIONS[step - 1].id] === opt.v ? "#E8B54D" : "#262640",
-                      color: answers[ALL_QUESTIONS[step - 1].id] === opt.v ? "#1B1B2F" : "#F4F1EA",
-                      border: "1px solid #3a3a5a",
+                      background: answers[ALL_QUESTIONS[step - 1].id] === opt.v ? "#FF5D8F" : "#FFFFFF",
+                      color: answers[ALL_QUESTIONS[step - 1].id] === opt.v ? "#FFFFFF" : "#4A3D52",
+                      border: "1px solid #F2DDE7",
                       borderRadius: 8,
                       fontSize: 14,
                       textAlign: "left",
@@ -1321,9 +1321,9 @@ export default function DiagnosisApp() {
                     onClick={() => handleAnswer(opt.type)}
                     style={{
                       padding: "14px 16px",
-                      background: answers[ALL_QUESTIONS[step - 1].id] === opt.type ? "#E8B54D" : "#262640",
-                      color: answers[ALL_QUESTIONS[step - 1].id] === opt.type ? "#1B1B2F" : "#F4F1EA",
-                      border: "1px solid #3a3a5a",
+                      background: answers[ALL_QUESTIONS[step - 1].id] === opt.type ? "#FF5D8F" : "#FFFFFF",
+                      color: answers[ALL_QUESTIONS[step - 1].id] === opt.type ? "#FFFFFF" : "#4A3D52",
+                      border: "1px solid #F2DDE7",
                       borderRadius: 8,
                       fontSize: 14,
                       textAlign: "left",
@@ -1341,21 +1341,21 @@ export default function DiagnosisApp() {
         {step > total && displayResult && (
           <div className="fade-in">
             {comparedEntry && (
-              <div style={{ background: "#262640", border: "1px solid #3a3a5a", borderRadius: 10, padding: 14, marginBottom: 16, fontSize: 13, lineHeight: 1.8 }}>
+              <div style={{ background: "#FFFFFF", border: "1px solid #F2DDE7", borderRadius: 10, padding: 14, marginBottom: 16, fontSize: 13, lineHeight: 1.8 }}>
                 {comparedEntry.personality === displayResult.personality.name &&
                 comparedEntry.love === displayResult.love.name ? (
                   <>前回と同じ「{displayResult.personality.name}×{displayResult.love.name}」でした。安定していますね。</>
                 ) : (
                   <>
                     前回は「{comparedEntry.personality}×{comparedEntry.love}」でしたが、
-                    今回は<strong style={{ color: "#E8B54D" }}>「{displayResult.personality.name}×{displayResult.love.name}」</strong>に変化しました。
+                    今回は<strong style={{ color: "#FF5D8F" }}>「{displayResult.personality.name}×{displayResult.love.name}」</strong>に変化しました。
                   </>
                 )}
               </div>
             )}
             <div
               style={{
-                background: "#262640",
+                background: "#FFFFFF",
                 border: `1px solid ${displayResult.personality.color}55`,
                 borderRadius: 16,
                 padding: 28,
@@ -1379,7 +1379,7 @@ export default function DiagnosisApp() {
                   <p style={{ fontSize: 13, lineHeight: 1.8, opacity: 0.85 }}>{displayResult.personality.desc}</p>
                 </div>
                 <div>
-                  <div style={{ fontSize: 12, color: "#E8B54D", marginBottom: 4, fontWeight: 700 }}>恋愛:{displayResult.love.name}</div>
+                  <div style={{ fontSize: 12, color: "#FF5D8F", marginBottom: 4, fontWeight: 700 }}>恋愛:{displayResult.love.name}</div>
                   <p style={{ fontSize: 13, lineHeight: 1.8, opacity: 0.85 }}>{displayResult.love.desc}</p>
                 </div>
                 {displayResult.skeleton ? (
@@ -1391,7 +1391,7 @@ export default function DiagnosisApp() {
                 ) : (
                   <button
                     onClick={startSkeletonQuiz}
-                    style={{ padding: "10px 14px", background: "#1B1B2F", color: "#F4F1EA", border: "1px dashed #3a3a5a", borderRadius: 8, fontSize: 12, cursor: "pointer", textAlign: "left" }}
+                    style={{ padding: "10px 14px", background: "#FFFFFF", color: "#4A3D52", border: "1px dashed #F2DDE7", borderRadius: 8, fontSize: 12, cursor: "pointer", textAlign: "left" }}
                   >
                     ＋ 見た目診断(骨格)を追加する(オプション・8問)
                   </button>
@@ -1399,7 +1399,7 @@ export default function DiagnosisApp() {
               </div>
             </div>
 
-            <div style={{ background: "#20203a", borderRadius: 12, padding: 16, marginBottom: 20 }}>
+            <div style={{ background: "#FFF3F8", borderRadius: 12, padding: 16, marginBottom: 20 }}>
               <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 10 }}>性格5軸スコア</div>
               {Object.entries(displayResult.normalized).map(([axis, val]) => (
                 <div key={axis} style={{ marginBottom: 8 }}>
@@ -1407,14 +1407,14 @@ export default function DiagnosisApp() {
                     <span>{axis}</span>
                     <span style={{ opacity: 0.6 }}>{Math.round((val / 5) * 100)}</span>
                   </div>
-                  <div style={{ height: 6, background: "#33334d", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: 6, background: "#F6E4ED", borderRadius: 3, overflow: "hidden" }}>
                     <div style={{ height: "100%", width: `${(val / 5) * 100}%`, background: displayResult.personality.color, borderRadius: 3 }} />
                   </div>
                 </div>
               ))}
             </div>
 
-            <div style={{ background: "#20203a", borderRadius: 12, padding: 16, marginBottom: 20 }}>
+            <div style={{ background: "#FFF3F8", borderRadius: 12, padding: 16, marginBottom: 20 }}>
               <div style={{ fontSize: 11, letterSpacing: 2, opacity: 0.5, marginBottom: 10 }}>詳しい鑑定(AI生成)</div>
               {!isPremium ? (
                 <>
@@ -1423,7 +1423,7 @@ export default function DiagnosisApp() {
                   </p>
                   <button
                     onClick={() => setView("premium")}
-                    style={{ width: "100%", padding: "12px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                    style={{ width: "100%", padding: "12px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
                   >
                     続きをプレミアムで読む
                   </button>
@@ -1439,7 +1439,7 @@ export default function DiagnosisApp() {
                   <button
                     onClick={generateReading}
                     disabled={readingLoading}
-                    style={{ width: "100%", padding: "12px 0", background: readingLoading ? "#3a3a5a" : "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: readingLoading ? "not-allowed" : "pointer" }}
+                    style={{ width: "100%", padding: "12px 0", background: readingLoading ? "#F2DDE7" : "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: readingLoading ? "not-allowed" : "pointer" }}
                   >
                     {readingLoading ? "書き下ろし中…" : "AIに詳しく鑑定してもらう"}
                   </button>
@@ -1454,7 +1454,7 @@ export default function DiagnosisApp() {
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                style={{ width: "100%", padding: "14px 0", background: "#E8B54D", color: "#1B1B2F", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                style={{ width: "100%", padding: "14px 0", background: "#FF5D8F", color: "#FFFFFF", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer" }}
               >
                 {copied ? "コピーしました！" : "シェア文をコピー"}
               </button>
@@ -1466,7 +1466,7 @@ export default function DiagnosisApp() {
                   a.download = `診断結果_${displayResult.personality.name}${displayResult.love.name}${displayResult.skeleton ? displayResult.skeleton.name : ""}.png`;
                   a.click();
                 }}
-                style={{ width: "100%", padding: "14px 0", background: "#262640", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
+                style={{ width: "100%", padding: "14px 0", background: "#FFFFFF", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
               >
                 結果を画像として保存
               </button>
@@ -1474,7 +1474,7 @@ export default function DiagnosisApp() {
 
             <button
               onClick={restart}
-              style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#F4F1EA", border: "1px solid #3a3a5a", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
+              style={{ width: "100%", padding: "14px 0", background: "transparent", color: "#4A3D52", border: "1px solid #F2DDE7", borderRadius: 10, fontSize: 14, cursor: "pointer" }}
             >
               もう一度診断する
             </button>
