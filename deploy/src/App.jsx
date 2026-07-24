@@ -2,6 +2,24 @@ import React, { useState, useEffect, useRef } from "react";
 import { storage } from "./lib/storage";
 import { Home, History, Heart, MessageCircle, Send } from "lucide-react";
 
+const CHARACTER_KEYS = {
+  "外向性協調性": "moodmaker",
+  "外向性誠実性": "leader",
+  "外向性情緒安定性": "sun",
+  "外向性開放性": "adventurer",
+  "協調性誠実性": "guardian",
+  "協調性情緒安定性": "healer",
+  "協調性開放性": "artist",
+  "誠実性情緒安定性": "craftsman",
+  "誠実性開放性": "scholar",
+  "情緒安定性開放性": "free",
+};
+
+function getCharacterImage(personalityKey, style) {
+  const base = CHARACTER_KEYS[personalityKey];
+  if (!base || !style) return null;
+  return `/characters/${base}_${style}.webp`;
+}
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');`;
 
 // ---------- 質問データ ----------
@@ -513,6 +531,8 @@ export default function DiagnosisApp() {
   const [skeletonStep, setSkeletonStep] = useState(0); // 0: not in flow, 1..N: questions, N+1: done
   const [skeletonAnswers, setSkeletonAnswers] = useState({});
   const [isPremium, setIsPremium] = useState(false);
+  const [avatarStyle, setAvatarStyle] = useState(null);
+  const [avatarStyleLoaded, setAvatarStyleLoaded] = useState(false);
   const [premiumLoaded, setPremiumLoaded] = useState(false);
   const [premiumReturn, setPremiumReturn] = useState(null);
   const [readingText, setReadingText] = useState("");
@@ -575,6 +595,24 @@ export default function DiagnosisApp() {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await storage.get("avatar_style");
+        if (res && res.value) setAvatarStyle(res.value);
+      } catch (e) {
+        // 未選択ならそのまま
+      } finally {
+        setAvatarStyleLoaded(true);
+      }
+    })();
+  }, []);
+
+  const selectAvatarStyle = (style) => {
+    setAvatarStyle(style);
+    storage.set("avatar_style", style).catch(() => {});
+  };
 
   const handleSkeletonAnswer = (val) => {
     const q = SKELETON_QUESTIONS[skeletonStep - 1];
@@ -1366,6 +1404,53 @@ export default function DiagnosisApp() {
                 )}
               </div>
             )}
+
+            {avatarStyleLoaded && (
+              <div style={{ marginBottom: 20 }}>
+                {avatarStyle ? (
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      src={getCharacterImage(displayResult.personalityKey, avatarStyle)}
+                      alt={displayResult.personality.name}
+                      style={{ width: 160, height: 160, objectFit: "contain", margin: "0 auto" }}
+                    />
+                    <button
+                      onClick={() => selectAvatarStyle(null)}
+                      style={{ marginTop: 4, background: "transparent", border: "none", color: "#B49EBB", fontSize: 11, cursor: "pointer", textDecoration: "underline" }}
+                    >
+                      ビジュアルを変更する
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ background: "#FFF3F8", borderRadius: 12, padding: 16, textAlign: "center" }}>
+                    <p style={{ fontSize: 12, opacity: 0.7, marginBottom: 12 }}>好きな方のビジュアルを選んでね</p>
+                    <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+                      <button
+                        onClick={() => selectAvatarStyle("m")}
+                        style={{ background: "#FFFFFF", border: "1px solid #F2DDE7", borderRadius: 12, padding: 8, cursor: "pointer" }}
+                      >
+                        <img
+                          src={getCharacterImage(displayResult.personalityKey, "m")}
+                          alt="スタイルA"
+                          style={{ width: 100, height: 100, objectFit: "contain", display: "block" }}
+                        />
+                      </button>
+                      <button
+                        onClick={() => selectAvatarStyle("f")}
+                        style={{ background: "#FFFFFF", border: "1px solid #F2DDE7", borderRadius: 12, padding: 8, cursor: "pointer" }}
+                      >
+                        <img
+                          src={getCharacterImage(displayResult.personalityKey, "f")}
+                          alt="スタイルB"
+                          style={{ width: 100, height: 100, objectFit: "contain", display: "block" }}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div
               style={{
                 background: "#FFFFFF",
